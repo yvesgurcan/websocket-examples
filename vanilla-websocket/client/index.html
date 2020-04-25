@@ -56,7 +56,7 @@
         function connect() {
             try {
                 webSocket = new WebSocket(webSocketUrl);
-                webSocket.onerror = () => onError();
+                webSocket.onerror = (error) => onError(error);
                 webSocket.onopen = () => onOpen();
                 webSocket.onclose = event => onClose(event);
                 webSocket.onmessage = payload => onMessage(payload);
