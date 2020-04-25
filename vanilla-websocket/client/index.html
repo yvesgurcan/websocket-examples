@@ -74,8 +74,7 @@
         }
         
         function onClose(event) {
-            console.log('The connection to the WebSocket server was closed.');
-            onError(event);
+            onError(`Connection closed with code ${code}.`);
         }
         
         function onMessage(message) {
