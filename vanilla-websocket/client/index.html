@@ -5,12 +5,12 @@
         <meta name="description" content="🔌 Example of a WebSocket client.">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
-            section {
+            main {
                 display: flex;
                 justify-content: space-around;
             }
             
-            h2 {
+            section {
                 flex: 1;
             }
             
@@ -130,14 +130,20 @@
         <div id="app">
               <h1>WebSocket client</h1>
               <button onClick="connect()">Connect</button>
-              <section>
-                  <h2>#errors</h2>
-                  <div id="errors"></div>
-                  <h2>#messages-sent</h2>
-                  <div id="messages-sent"></div>
-                  <h2>#messages-received</h2>
-                  <div id="messages-received"></div>
-            </section>
+              <main>
+                  <section>
+                      <h2>#messages-sent</h2>
+                      <div id="messages-sent"></div>
+                  </section>
+                  <section>
+                      <h2>#messages-received</h2>
+                      <div id="messages-received"></div>
+                  </section>
+                  <section>
+                      <h2>#errors</h2>
+                      <div id="errors"></div>
+                  </section>
+            </main>
         </div>
     </body>
 </html>
