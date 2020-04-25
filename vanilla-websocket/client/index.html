@@ -8,10 +8,20 @@
     <script>
         console.log('Running JavaScript...');
         function addToView(content, elementId) {
+            const now = new Date();
+            
             let parentElement = document.getElementById(elementId);
+            
             let contentElement = document.createElement('pre'); 
-            contentElement.innerHTML = content;
+            let timestamp = document.createElement('span');
+            timestamp.innerHtml = now.toLocaleTimeString();
+            
+            let wrapperElement = document.createElement('div');
             parentElement.appendChild(contentElement); 
+            parentElement.appendChild(timestamp); 
+            
+            contentElement.innerHTML = content;
+            parentElement.appendChild(wrapperElement); 
         }
         
         let webSocketUrl = 'wss://localhost:9000';
