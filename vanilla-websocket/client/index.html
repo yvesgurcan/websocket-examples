@@ -38,21 +38,11 @@
         let webSocket = null;
         
         function parse(string) {
-            try {
-                return JSON.parse(string);
-            } catch (error) {
-                console.error("Could not parse string to JSON:", string);
-                onError(error);
-            }
+            return JSON.parse(string);
         }
         
         function stringify(object) {
-            try {
-                return JSON.stringify(object);
-            } catch (error) {
-                console.error("Could not stringify object:", object);
-                onError(error);
-            }
+            return JSON.stringify(object);
         }
         
         function connect() {
