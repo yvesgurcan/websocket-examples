@@ -22,8 +22,8 @@
             timestamp.innerHTML = now.toLocaleTimeString();
             
             let wrapperElement = document.createElement('div');
-            wrapperElement.appendChild(contentElement); 
             wrapperElement.appendChild(timestamp); 
+            wrapperElement.appendChild(contentElement); 
             
             contentElement.innerHTML = content;
             parentElement.appendChild(wrapperElement); 
