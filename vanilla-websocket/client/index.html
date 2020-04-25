@@ -16,6 +16,7 @@
     </head>
     <script>
         console.log('Running JavaScript...');
+        
         function addToView(content, elementId) {
             const now = new Date();
             
@@ -33,6 +34,11 @@
             parentElement.appendChild(wrapperElement); 
         }
         
+        function onError(error) {
+            console.error('Oops!', { error })
+            addToView(error, 'errors');
+        }
+        
         let webSocketUrl = 'wss://localhost:9000';
         let webSocket = null;
         
@@ -41,6 +47,7 @@
             return JSON.parse(string);
             } catch (error) {
                 console.error("Could not parse string to JSON.", { string });
+                onError(error);
             }
         }
         
@@ -49,14 +56,19 @@
             return JSON.stringify(object);
             } catch (error) {
                 console.error("Could not stringify object.", { object });
+                onError(error);
             }
         }
         
         function connect() {
-            webSocket = new WebSocket(webSocketUrl);
-            webSocket.onopen = () => onOpen();
-            webSocket.onclose = event => onClose(event);
-            webSocket.onmessage = payload => onMessage(payload);
+            try {
+                webSocket = new WebSocket(webSocketUrl);
+                webSocket.onopen = () => onOpen();
+                webSocket.onclose = event => onClose(event);
+                webSocket.onmessage = payload => onMessage(payload);
+            } catch (error) {   
+                onError(error);
+            }
         }
         
         function onOpen() {
@@ -76,8 +88,13 @@
         function sendMessage(message) {
             console.log('Sending message to the WebSocket server', { message } );
             const stringifiedMessage = stringify(message);
-            webSocket.send(stringifiedMessage)
-            addToView(message, 'messages-sent');
+            try {
+                webSocket.send(stringifiedMessage)
+                addToView(message, 'messages-sent');
+            } catch (error) {   
+                onError(error);
+            }
+            
         }
         
         // This is only useful to demonstrate WebSockets thanks to the JavaScript browser console.
@@ -87,6 +104,7 @@
                 parse,
                 stringify,
                 connect,
+                onError,
                 onOpen,
                 onClose,
                 onMessage,
@@ -101,6 +119,8 @@
         <div id="app">
           <h1>WebSocket client</h1>
           <button onClick="connect()">Connect</button>
+          <h2>#errors</h2>
+          <div id="errors"></div>
           <h2>#messages-sent</h2>
           <div id="messages-sent"></div>
           <h2>#messages-received</h2>
