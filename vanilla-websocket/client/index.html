@@ -9,7 +9,8 @@
         console.log('Running JavaScript...');
         function addToView(content, elementId) {
             let parentElement = document.getElementById(elementId);
-            const contentElement = document.createElement('pre', content); 
+            let contentElement = document.createElement('pre'); 
+            contentElement.innerHTML = content;
             parentElement.appendChild(contentElement); 
         }
         
