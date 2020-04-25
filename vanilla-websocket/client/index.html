@@ -46,7 +46,7 @@
             try {
                 return JSON.parse(string);
             } catch (error) {
-                console.error("Could not parse string to JSON.", { string });
+                console.error("Could not parse string to JSON:", string);
                 onError(error);
             }
         }
@@ -55,7 +55,7 @@
             try {
                 return JSON.stringify(object);
             } catch (error) {
-                console.error("Could not stringify object.", { object });
+                console.error("Could not stringify object:", object);
                 onError(error);
             }
         }
@@ -80,7 +80,7 @@
         }
         
         function onMessage(message) {
-            console.log('Received a message from WebSocket server.', { message });
+            console.log('Received a message from WebSocket server:', message);
             try {
                 const parsedMessage = parse(message);
                 addToView(message, 'messages-received');
@@ -90,7 +90,7 @@
         }
         
         function sendMessage(message) {
-            console.log('Sending message to the WebSocket server.', { message } );
+            console.log('Sending message to the WebSocket server:', message );
             try {
                 const stringifiedMessage = stringify(message);
                 webSocket.send(stringifiedMessage)
