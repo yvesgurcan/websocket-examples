@@ -34,11 +34,6 @@
             parentElement.appendChild(wrapperElement); 
         }
         
-        function onError(error) {
-            console.error(error)
-            addToView(error, 'errors');
-        }
-        
         let webSocketUrl = 'wss://localhost:9000';
         let webSocket = null;
         
@@ -63,12 +58,18 @@
         function connect() {
             try {
                 webSocket = new WebSocket(webSocketUrl);
+                webSocket.onerror = () => onError();
                 webSocket.onopen = () => onOpen();
                 webSocket.onclose = event => onClose(event);
                 webSocket.onmessage = payload => onMessage(payload);
             } catch (error) {   
                 onError(error);
             }
+        }
+        
+        function onError(error) {
+            console.error(error)
+            addToView(error, 'errors');
         }
         
         function onOpen() {
