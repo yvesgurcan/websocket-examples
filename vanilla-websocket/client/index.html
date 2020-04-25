@@ -53,6 +53,11 @@
             }
         }
         
+        function onError(error) {
+            console.error(error)
+            addToView(error, 'errors');
+        }
+        
         function connect() {
             try {
                 webSocket = new WebSocket(webSocketUrl);
@@ -62,11 +67,6 @@
             } catch (error) {   
                 onError(error);
             }
-        }
-        
-        function onError(error) {
-            console.error(error)
-            addToView(error, 'errors');
         }
         
         function onOpen() {
@@ -105,8 +105,8 @@
                 addToView,
                 parse,
                 stringify,
-                connect,
                 onError,
+                connect,
                 onOpen,
                 onClose,
                 onMessage,
