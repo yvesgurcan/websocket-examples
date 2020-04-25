@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Vanilla JavaScript WebSocket</title>
+        <meta name="description" content="🔌 Example of a WebSocket client.">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <script>
+        console.log('Running JavaScript...');
+        function addToView(content, elementId) {
+            let parentElement = document.getElementById(elementId);
+            const contentElement = document.createElement('pre', content); 
+            parentElement.appendChild(contentElement); 
+        }
+        
+        let webSocketUrl = 'wss://localhost:9000';
+        let webSocket = null;
+        
+        function parse(string) {
+            try {
+            return JSON.parse(string);
+            } catch (error) {
+                console.error("Could not parse string to JSON.", { string });
+            }
+        }
+        
+        function stringify(object) {
+            try {
+            return JSON.stringify(object);
+            } catch (error) {
+                console.error("Could not stringify object.", { object });
+            }
+        }
+        
+        function connect() {
+            webSocket = new WebSocket(webSocketUrl);
+            webSocket.onopen = () => onOpen();
+            webSocket.onclose = event => onClose(event);
+            webSocket.onmessage = payload => onMessage(payload);
+        }
+        
+        function onOpen() {
+            console.log('Connection to WebSocket server.');
+        }
+        
+        function onClose() {
+            console.log('The connection to the WebSocket server was closed.');
+        }
+        
+        function onMessage(message) {
+            const parsedMessage = parse(message);
+            console.log('Received a message from WebSocket server', { parsedMessage });
+            addToView(message, 'messages-received');
+        }
+        
+        function sendMessage(message) {
+            console.log('Sending message to the WebSocket server', { message } );
+            const stringifiedMessage = stringify(message);
+            webSocket.send(stringifiedMessage)
+            addToView(message, 'messages-sent');
+        }
+    </script>
+    <body>
+        <div id="app">
+          <h1>WebSocket client</h1>
+          <button onClick="connect()">Connect</button>
+          <h2>Messages sent</h2>
+          <div id="messages-sent"></div>
+          <h2>Messages received</h2>
+          <div id="messages-received"></div>
+        </div>
+    </body>
+</html>
