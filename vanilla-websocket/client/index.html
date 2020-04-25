@@ -90,7 +90,7 @@
             const stringifiedMessage = stringify(message);
             try {
                 webSocket.send(stringifiedMessage)
-                addToView(message, 'messages-sent');
+                addToView(stringifiedMessage, 'messages-sent');
             } catch (error) {   
                 onError(error);
             }
