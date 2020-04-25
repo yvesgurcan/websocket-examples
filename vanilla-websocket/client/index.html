@@ -44,7 +44,7 @@
         
         function parse(string) {
             try {
-            return JSON.parse(string);
+                return JSON.parse(string);
             } catch (error) {
                 console.error("Could not parse string to JSON.", { string });
                 onError(error);
@@ -53,7 +53,7 @@
         
         function stringify(object) {
             try {
-            return JSON.stringify(object);
+                return JSON.stringify(object);
             } catch (error) {
                 console.error("Could not stringify object.", { object });
                 onError(error);
@@ -80,15 +80,19 @@
         }
         
         function onMessage(message) {
-            const parsedMessage = parse(message);
-            console.log('Received a message from WebSocket server.', { parsedMessage });
-            addToView(message, 'messages-received');
+            console.log('Received a message from WebSocket server.', { message });
+            try {
+                const parsedMessage = parse(message);
+                addToView(message, 'messages-received');
+            } catch (error) {
+                onError(error);
+            }
         }
         
         function sendMessage(message) {
             console.log('Sending message to the WebSocket server.', { message } );
-            const stringifiedMessage = stringify(message);
             try {
+                const stringifiedMessage = stringify(message);
                 webSocket.send(stringifiedMessage)
                 addToView(stringifiedMessage, 'messages-sent');
             } catch (error) {   
