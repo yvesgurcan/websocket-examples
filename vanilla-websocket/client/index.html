@@ -5,6 +5,15 @@
         <meta name="description" content="🔌 Example of a WebSocket client.">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
+            section {
+                display: flex;
+                justify-content: space-around;
+            }
+            
+            h2 {
+                flex: 1;
+            }
+            
             pre {
                 display: inline-block;
             }
@@ -38,7 +47,11 @@
         let webSocket = null;
         
         function parse(string) {
-            return JSON.parse(string);
+            try {
+                return JSON.parse(string);
+            } catch (error) {
+                onError(error);
+            }
         }
         
         function stringify(object) {
@@ -115,14 +128,16 @@
     </script>
     <body>
         <div id="app">
-          <h1>WebSocket client</h1>
-          <button onClick="connect()">Connect</button>
-          <h2>#errors</h2>
-          <div id="errors"></div>
-          <h2>#messages-sent</h2>
-          <div id="messages-sent"></div>
-          <h2>#messages-received</h2>
-          <div id="messages-received"></div>
+              <h1>WebSocket client</h1>
+              <button onClick="connect()">Connect</button>
+              <section>
+                  <h2>#errors</h2>
+                  <div id="errors"></div>
+                  <h2>#messages-sent</h2>
+                  <div id="messages-sent"></div>
+                  <h2>#messages-received</h2>
+                  <div id="messages-received"></div>
+            </section>
         </div>
     </body>
 </html>
