@@ -47,6 +47,9 @@
         
         function stringify(object) {
             try {
+                if (!object) {
+                    throw 'Could not parse object.';
+                }
                 return JSON.stringify(object);
             } catch (error) {
                 onError(error);
