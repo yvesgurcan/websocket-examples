@@ -56,7 +56,6 @@
         function connect() {
             try {
                 webSocket = new WebSocket(webSocketUrl);
-                webSocket.onerror = (error) => onError(error);
                 webSocket.onopen = () => onOpen();
                 webSocket.onclose = event => onClose(event);
                 webSocket.onmessage = payload => onMessage(payload);
@@ -74,8 +73,9 @@
             console.log('Connection to WebSocket server.');
         }
         
-        function onClose() {
+        function onClose(event) {
             console.log('The connection to the WebSocket server was closed.');
+            onError(event);
         }
         
         function onMessage(message) {
