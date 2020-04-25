@@ -14,11 +14,11 @@
             
             let contentElement = document.createElement('pre'); 
             let timestamp = document.createElement('span');
-            timestamp.innerHtml = now.toLocaleTimeString();
+            timestamp.innerHTML = now.toLocaleTimeString();
             
             let wrapperElement = document.createElement('div');
-            parentElement.appendChild(contentElement); 
-            parentElement.appendChild(timestamp); 
+            wrapperElement.appendChild(contentElement); 
+            wrapperElement.appendChild(timestamp); 
             
             contentElement.innerHTML = content;
             parentElement.appendChild(wrapperElement); 
