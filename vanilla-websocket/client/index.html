@@ -31,18 +31,14 @@
             wrapperElement.appendChild(contentElement); 
             
             contentElement.innerHTML = content;
-            parentElement.appendChild(wrapperElement); 
+            parentElement.prepend(wrapperElement); 
         }
         
         let webSocketUrl = 'wss://localhost:9000';
         let webSocket = null;
         
         function parse(string) {
-            try {
-                return JSON.parse(string);
-            } catch (error) {
-                onError(error);
-            }
+            return JSON.parse(string);
         }
         
         function stringify(object) {
@@ -50,11 +46,7 @@
                 throw 'Could not parse object.';
             }
             
-            try {
-                return JSON.stringify(object);
-            } catch (error) {
-                onError(error);
-            }
+            return JSON.stringify(object);
         }
         
         function onError(error) {
