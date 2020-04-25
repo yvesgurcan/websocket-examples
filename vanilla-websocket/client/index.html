@@ -59,6 +59,22 @@
             webSocket.send(stringifiedMessage)
             addToView(message, 'messages-sent');
         }
+        
+        // This is only useful to demonstrate WebSockets thanks to the JavaScript browser console.
+        function bindToWindow() {
+            window.client = {
+                parse,
+                stringify,
+                connect,
+                onOpen,
+                onClose,
+                onMessage,
+                sendMessage
+            };
+            console.log('Functions related to the WebSocket have been bound to window.client.');
+        }
+        
+        bindToWindow();
     </script>
     <body>
         <div id="app">
