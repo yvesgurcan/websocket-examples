@@ -81,12 +81,12 @@
         
         function onMessage(message) {
             const parsedMessage = parse(message);
-            console.log('Received a message from WebSocket server', { parsedMessage });
+            console.log('Received a message from WebSocket server.', { parsedMessage });
             addToView(message, 'messages-received');
         }
         
         function sendMessage(message) {
-            console.log('Sending message to the WebSocket server', { message } );
+            console.log('Sending message to the WebSocket server.', { message } );
             const stringifiedMessage = stringify(message);
             try {
                 webSocket.send(stringifiedMessage)
