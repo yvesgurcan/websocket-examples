@@ -2,20 +2,39 @@
 <html lang="en">
     <head>
         <title>Vanilla JavaScript WebSocket</title>
-        <meta name="description" content="🔌 Example of a WebSocket client.">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="🔌 Example of a WebSocket client." />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <style>
+            header section,
+            form {
+                display: flex;
+                align-items: center;
+            }
+
+            form div {
+                display: flex;
+                flex-direction: column;
+            }
+            textarea {
+                min-width: 10rem;
+                min-height: 5rem;
+            }
+
+            button {
+                margin: 0.2rem;
+            }
+
             main {
                 display: flex;
                 justify-content: space-around;
                 flex-wrap: wrap;
             }
-            
-            section {
+
+            main section {
                 padding: 1rem;
                 flex: 1 1 auto;
             }
-            
+
             code {
                 display: inline-block;
             }
@@ -27,27 +46,36 @@
     </head>
     <script>
         console.log('Running JavaScript...');
-        
+
         function addToView(content, elementId) {
             const now = new Date();
-            
+
             let parentElement = document.getElementById(elementId);
-            
-            let contentElement = document.createElement('code'); 
+
+            let contentElement = document.createElement('code');
             let timestamp = document.createElement('span');
             timestamp.innerHTML = now.toLocaleTimeString();
-            
+
             let wrapperElement = document.createElement('div');
-            wrapperElement.appendChild(timestamp); 
-            wrapperElement.appendChild(contentElement); 
-            
+            wrapperElement.appendChild(timestamp);
+            wrapperElement.appendChild(contentElement);
+
             contentElement.innerHTML = content;
-            parentElement.prepend(wrapperElement); 
+            parentElement.prepend(wrapperElement);
         }
-        
-        let webSocketUrl = 'wss://localhost:9000';
+
+        let webSocketUrl = 'ws://localhost:3000';
         let webSocket = null;
-        
+
+        connect();
+
+        function submitForm(form) {
+            const textareaElement = form[0];
+            const message = textareaElement.value;
+            sendMessage(message);
+            return false;
+        }
+
         function parse(string) {
             try {
                 return JSON.parse(string);
@@ -55,65 +83,67 @@
                 onError(error);
             }
         }
-        
+
         function stringify(object) {
             if (!object) {
                 throw 'Could not parse object.';
             }
-            
+
             return JSON.stringify(object);
         }
-        
+
         function onError(error) {
-            console.error(error)
+            console.error(error);
             addToView(error, 'errors');
         }
-        
+
         function connect() {
             try {
                 webSocket = new WebSocket(webSocketUrl);
                 webSocket.onopen = () => onOpen();
-                webSocket.onclose = event => onClose(event);
-                webSocket.onmessage = payload => onMessage(payload);
-            } catch (error) {   
-                onError(error);
-            }
-        }
-        
-        function onOpen() {
-            console.log('Connection to WebSocket server.');
-        }
-        
-        function onClose(event) {
-            onError(`Connection closed with code ${event.code}.`);
-        }
-        
-        function onMessage(message) {
-            console.log('Received a message from WebSocket server:', message);
-            try {
-                const parsedMessage = parse(message);
-                addToView(message, 'messages-received');
+                webSocket.onclose = (event) => onClose(event);
+                webSocket.onmessage = (payload) => onMessage(payload);
             } catch (error) {
                 onError(error);
             }
         }
-        
-        function sendMessage(message) {
-            console.log('Sending message to the WebSocket server:', message );
+
+        function onOpen() {
+            console.log('Connection to WebSocket server.');
+        }
+
+        function onClose(event) {
+            onError(`Connection closed with code ${event.code}.`);
+        }
+
+        function onMessage(message) {
+            console.log(
+                'Received a message from WebSocket server:',
+                message.data
+            );
             try {
-                const stringifiedMessage = stringify(message);
-                webSocket.send(stringifiedMessage)
-                addToView(stringifiedMessage, 'messages-sent');
-            } catch (error) {   
+                const parsedMessage = parse(message.data);
+                addToView(message.data, 'messages-received');
+            } catch (error) {
                 onError(error);
             }
-            
         }
-        
+
+        function sendMessage(message) {
+            console.log('Sending message to the WebSocket server:', message);
+            try {
+                webSocket.send(message);
+                addToView(message, 'messages-sent');
+            } catch (error) {
+                onError(error);
+            }
+        }
+
         // This is only useful to demonstrate WebSockets thanks to the JavaScript browser console.
         function bindToWindow() {
             window.client = {
                 addToView,
+                submitForm,
                 parse,
                 stringify,
                 onError,
@@ -121,30 +151,42 @@
                 onOpen,
                 onClose,
                 onMessage,
-                sendMessage
+                sendMessage,
             };
-            console.log('Functions related to the WebSocket have been bound to window.client.');
+            console.log(
+                'Functions related to the WebSocket have been bound to window.client.'
+            );
         }
-        
+
         bindToWindow();
     </script>
     <body>
         <div id="app">
-              <h1>WebSocket client</h1>
-              <button onClick="connect()">Connect</button>
-              <main>
-                  <section>
-                      <h2>#messages-sent</h2>
-                      <div id="messages-sent"></div>
-                  </section>
-                  <section>
-                      <h2>#messages-received</h2>
-                      <div id="messages-received"></div>
-                  </section>
-                  <section>
-                      <h2>#errors</h2>
-                      <div id="errors"></div>
-                  </section>
+            <header>
+                <h1>WebSocket client</h1>
+                <section>
+                    <form onSubmit="return submitForm(this)">
+                        <textarea>{"text": "Hi! I'm a client."}</textarea>
+                        <div>
+                            <button type="submit">Send message</button>
+                            <button onClick="connect()">Connect</button>
+                        </div>
+                    </form>
+                </section>
+            </header>
+            <main>
+                <section>
+                    <h2>#messages-sent</h2>
+                    <div id="messages-sent"></div>
+                </section>
+                <section>
+                    <h2>#messages-received</h2>
+                    <div id="messages-received"></div>
+                </section>
+                <section>
+                    <h2>#errors</h2>
+                    <div id="errors"></div>
+                </section>
             </main>
         </div>
     </body>

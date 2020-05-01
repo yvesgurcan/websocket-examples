@@ -1,0 +1,30 @@
+{
+  "name": "websocket-server",
+  "version": "0.0.1",
+  "description": "A WebSocket server with Node",
+  "main": "index.js",
+  "scripts": {
+    "start": "node .",
+    "dev": "nodemon ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yvesgurcan/websocket-examples.git"
+  },
+  "keywords": [
+    "websocket",
+    "node",
+    "server",
+    "javascript"
+  ],
+  "author": "Yves Gurcan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yvesgurcan/websocket-examples/issues"
+  },
+  "homepage": "https://github.com/yvesgurcan/websocket-examples#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "ws": "^7.2.5"
+  }
+}
