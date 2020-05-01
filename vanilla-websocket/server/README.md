@@ -1,4 +1,4 @@
-# WebSocket Server: 
+# WebSocket Server: Node and WS
 
 ## Setup
 
