@@ -8,7 +8,7 @@
 
 WebSocket is a protocol (like HTTP) that allows for a persistent connection between server and client so they can exchange data at any time.
 
-A WebSocket server lives within an HTTP server. A handshake enabled the switch from HTTP to WS or WSS.
+Typically, a WebSocket server lives within an HTTP server. A handshake enabled the switch from HTTP to WS or WSS.
 
 The server may listen on any port it chooses.
 
