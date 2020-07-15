@@ -1,9 +1,9 @@
 const WebSocket = require('ws');
-const { Server: WebSocketServer } = WebSocket;
+const { Server } = WebSocket;
 
-module.exports = class GameSocketServer {
+module.exports = class WebSocketServer {
     constructor({ server }) {
-        this.server = new WebSocketServer({ server });
+        this.server = new Server({ server });
         this.server.on('connection', this.handleNewConnection);
         this.server.on('close', (event) => {});
     }
@@ -34,7 +34,7 @@ module.exports = class GameSocketServer {
     };
 
     handleNewMessage = (message, client) => {
-        const parsedMessage = GameSocketServer.parse(message);
+        const parsedMessage = WebSocketServer.parse(message);
         console.log({ input: parsedMessage });
 
         let originalMessage = undefined;
@@ -54,7 +54,7 @@ module.exports = class GameSocketServer {
     }
 
     sendMessage(message, client) {
-        const parsedMessage = GameSocketServer.stringify(message);
+        const parsedMessage = WebSocketServer.stringify(message);
         client.send(parsedMessage);
         console.log({ output: message });
     }
